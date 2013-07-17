@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import com.lottery.common.cache.CacheManager;
@@ -15,13 +16,14 @@ import com.lottery.model.Ssq;
 import com.lottery.service.LotteryService;
 
 @Service("ssqService")
-public class SsqServiceImpl implements LotteryService {
+public class SsqServiceImpl implements LotteryService,InitializingBean {
 
 	private static final Logger log = LoggerFactory.getLogger(SsqServiceImpl.class);
 	
 	@Override
 	public void init() {
-		log.info("初始化双色球服务");
+		log.info("开始初始化双色球");
+		long start = System.currentTimeMillis();
 		
 		List<Ssq> ssqList = new ArrayList<Ssq>();
 		
@@ -37,37 +39,37 @@ public class SsqServiceImpl implements LotteryService {
 			int range3 = 0;				// 区间3个数
 			int	primeNum = 0;			// 质数个数
 			
-			for(int ball : redBalls){
+			for(int redBall : redBalls){
 				// 奇数计算
-				if(ball % 2 != 0)
+				if(redBall % 2 != 0)
 					oddNum++;
 				
 				// 尾和统计
-				unitsDigitSum += ball % 10;
+				unitsDigitSum += redBall % 10;
 				
 				// 和值计算
-				redBallSum += ball;
+				redBallSum += redBall;
 				
 				// 计算区间个数
-				if (ball <= 11)
+				if (redBall <= 11)
 					range1++;
-				else if (ball > 11 && ball <= 22)
+				else if (redBall > 11 && redBall <= 22)
 					range2++;
 				else
 					range3++;
 				
 				// 质数个数
-				if(ball == 1 || ball == 2 
-						|| ball == 3 
-						|| ball == 5 
-						|| ball == 7 
-						|| ball == 11 
-						|| ball == 13 
-						|| ball == 17 
-						|| ball == 19 
-						|| ball == 23 
-						|| ball == 29 
-						|| ball == 31)
+				if(redBall == 1 || redBall == 2 
+						|| redBall == 3 
+						|| redBall == 5 
+						|| redBall == 7 
+						|| redBall == 11 
+						|| redBall == 13 
+						|| redBall == 17 
+						|| redBall == 19 
+						|| redBall == 23 
+						|| redBall == 29 
+						|| redBall == 31)
 					primeNum++;
 			}
 			
@@ -86,7 +88,7 @@ public class SsqServiceImpl implements LotteryService {
 			ssqList.add(ssq);
 		}
 		CacheManager.set("ssq", "redBalls", (Serializable)ssqList);
-		log.info("初始化双色球服务完毕");
+		log.info("初始化双色球完毕,耗时:"+(System.currentTimeMillis() - start)+"ms");
 	}
 
 	/**
@@ -98,5 +100,10 @@ public class SsqServiceImpl implements LotteryService {
 		MathUtil.combine(new int[6], 33, 6, 0, data);
 		log.info("双色球所有红球组合创建完毕，总数 : " + data.size());
 		return data;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
 }
