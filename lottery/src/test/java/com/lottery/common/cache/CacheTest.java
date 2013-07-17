@@ -16,5 +16,6 @@ public class CacheTest {
 		CacheManager.set("lotteryCache", "name", "JJ");
 		
 		Assert.assertEquals("JJ", CacheManager.get("lotteryCache", "name"));
+		
 	}
 }
