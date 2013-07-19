@@ -87,7 +87,7 @@ public class SsqServiceImpl implements LotteryService,InitializingBean {
 			
 			ssqList.add(ssq);
 		}
-		CacheManager.set("ssq", "redBalls", (Serializable)ssqList);
+		CacheManager.set("lotteryCache", "redBalls", (Serializable)ssqList);
 		log.info("初始化双色球完毕,耗时:"+(System.currentTimeMillis() - start)+"ms");
 	}
 
