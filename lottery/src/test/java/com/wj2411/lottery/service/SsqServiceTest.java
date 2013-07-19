@@ -29,4 +29,9 @@ public class SsqServiceTest {
 		List<Ssq> ssqList = (List<Ssq>)CacheManager.get("ssq", "redBalls");
 		log.debug("Ssq num : "+ssqList.size());
 	}
+	
+	@Test
+	public void testSync(){
+		ssqService.sync();
+	}
 }

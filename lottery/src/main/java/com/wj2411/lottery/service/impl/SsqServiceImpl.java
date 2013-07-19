@@ -1,6 +1,8 @@
 package com.wj2411.lottery.service.impl;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,17 +10,59 @@ import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wj2411.lottery.common.PropertyConfigurer;
 import com.wj2411.lottery.common.cache.CacheManager;
+import com.wj2411.lottery.common.utils.FileUtil;
 import com.wj2411.lottery.common.utils.MathUtil;
 import com.wj2411.lottery.model.Ssq;
+import com.wj2411.lottery.model.WinningInfo;
+import com.wj2411.lottery.service.CrawlerService;
 import com.wj2411.lottery.service.LotteryService;
 
 @Service("ssqService")
 public class SsqServiceImpl implements LotteryService,InitializingBean {
 
 	private static final Logger log = LoggerFactory.getLogger(SsqServiceImpl.class);
+	private static final String SSQWINNINGNUMBERSFILENAME = "ssq_winning_numbers.txt";
+	@Autowired
+	private CrawlerService crawlerService;
+	
+	@Override
+	public void sync() {
+		try {
+			// 获取最新开奖号码
+			String ssqWinningNumbersUrl = PropertyConfigurer.getProperty("ssq_winning_numbers_url");
+			WinningInfo lastWinningInfo = crawlerService.crawling(ssqWinningNumbersUrl);
+			
+			// 获取本地最新的开奖信息
+			ByteBuffer file = FileUtil.read(SSQWINNINGNUMBERSFILENAME);
+			String fileContent = new String(file.array(),"UTF-8");
+			
+			int firstLineEndingIndex = fileContent.indexOf("\r\n");
+			String firstLineContent = fileContent.substring(0,firstLineEndingIndex);
+			int issue = Integer.parseInt(firstLineContent.split(",")[0]);
+			log.info("本地最新的期数: "+issue);
+			
+			// 同步缺失的开奖信息
+			StringBuilder sb = new StringBuilder();
+			if(issue < lastWinningInfo.getIssue()){
+				for (int i = lastWinningInfo.getIssue(); i > issue; i--) {
+					WinningInfo winningInfo = crawlerService.crawling(ssqWinningNumbersUrl+"/"+i);
+					sb.append(winningInfo.getIssue()+","+winningInfo.getNumber()+"\r\n");
+				}
+			}
+			sb.append(fileContent);
+			
+			// 写入开奖信息
+			ByteBuffer contentBuffer = ByteBuffer.wrap(sb.toString().getBytes("UTF-8"));
+			FileUtil.write(SSQWINNINGNUMBERSFILENAME, contentBuffer);
+		} catch (IOException e) {
+			log.error("读取文件异常");
+		}
+	}
 	
 	@Override
 	public void init() {

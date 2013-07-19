@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.wj2411.lottery.common.PropertyConfigurer;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class CrawlerServiceTest {
@@ -15,6 +17,7 @@ public class CrawlerServiceTest {
 	
 	@Test
 	public void testCrawling(){
-		crawlerService.crawling();
+		String ssqWinningNumbersUrl = PropertyConfigurer.getProperty("ssq_winning_numbers_url");
+		crawlerService.crawling(ssqWinningNumbersUrl);
 	}
 }

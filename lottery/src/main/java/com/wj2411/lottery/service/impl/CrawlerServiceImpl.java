@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.wj2411.lottery.common.PropertyConfigurer;
+import com.wj2411.lottery.model.WinningInfo;
 import com.wj2411.lottery.service.CrawlerService;
 
 /**
@@ -21,26 +21,31 @@ public class CrawlerServiceImpl implements CrawlerService {
 	private static final Logger log = LoggerFactory.getLogger(CrawlerServiceImpl.class);
 
 	@Override
-	public void crawling() {
-		String ssqWinningNumbersUrl = PropertyConfigurer.getProperty("ssq_winning_numbers_url");
-		log.debug("ssq_winning_numbers_url : " + ssqWinningNumbersUrl);
-		
-		/* parse ssq winning numbers page and get title content*/
+	public WinningInfo crawling(String url) {
+		log.debug("url : " + url);
+		WinningInfo winningInfo = new WinningInfo();
+		/* parse winning numbers page and get title content*/
 		try {
-			Parser parser = new Parser(ssqWinningNumbersUrl);
+			Parser parser = new Parser(url);
 			TagNameFilter filter = new TagNameFilter("title");
 			NodeList nl = parser.extractAllNodesThatMatch(filter);
 			String title = nl.elementAt(0).toPlainTextString();
 			log.debug("title : "+title);
 			
 			// get winning number and issue
-			String issue = title.substring(4, 11);
-			String winningNumber = title.substring(18,32);
-			log.info("issue : "+issue+" , winningNumber : "+winningNumber);
+			winningInfo.setIssue(Integer.parseInt(title.substring(4, 11)));
+			winningInfo.setNumber(title.substring(18,32));
+			log.info("issue : "+winningInfo.getIssue()+" , winningNumber : "+winningInfo.getNumber());
 			
-			
+			return winningInfo;
 		} catch (Exception e) {
 			log.error("parse ssq winning numbers page error.",e);
 		}
+		return null;
+	}
+	
+	
+	private void writeWinningNumbers(String issue, String winningNumber){
+		
 	}
 }

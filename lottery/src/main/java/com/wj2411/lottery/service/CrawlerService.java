@@ -1,5 +1,7 @@
 package com.wj2411.lottery.service;
 
+import com.wj2411.lottery.model.WinningInfo;
+
 /**
  * 爬虫服务
  * @author 须俊杰
@@ -10,5 +12,5 @@ public interface CrawlerService {
 	/**
 	 * 爬取
 	 */
-	public void crawling();
+	public WinningInfo crawling(String url);
 }

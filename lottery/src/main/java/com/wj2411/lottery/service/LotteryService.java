@@ -10,4 +10,9 @@ public interface LotteryService {
 	 * 初始化
 	 */
 	void init();
+	
+	/**
+	 * 同步
+	 */
+	void sync();
 }

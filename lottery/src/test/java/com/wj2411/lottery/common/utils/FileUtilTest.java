@@ -1,6 +1,7 @@
 package com.wj2411.lottery.common.utils;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -11,6 +12,10 @@ public class FileUtilTest {
 	
 	@Test
 	public void testRead() throws IOException{
-		FileUtil.read("winning_numbers.txt");
+		ByteBuffer file = FileUtil.read("winning_numbers.txt");
+		String fileContent = new String(file.array(),"UTF-8");
+		log.info("content : "+fileContent);
+		log.info("\\r index : "+fileContent.indexOf("\r\n"));
+		log.info("4 index : "+fileContent.indexOf("4"));
 	}
 }
