@@ -4,6 +4,7 @@
 <html>
 <head>
 	<jsp:include page="../common/common.jsp"></jsp:include>
+	<script type="text/javascript" src="<c:url value="/assets/js/ssq.js"/>"></script>
 	<title>双色球</title>
 </head>
 <body>
@@ -17,12 +18,10 @@
 					<div class="entry">
 						<form id="ssqCountForm" method="post">
 							<ul id="biaoge">
-								<li class="left">期号:</li>
-							    <li class="right"><input type="text" class="easyui-numberbox" name="issue" id="issue"/></li>
 							    <li class="left">遗漏和区间:</li>
 							    <li class="right">
-							    	<input type="text" class="easyui-numberbox" name="minOmitSum" style="width:90px;"/> -
-							    	<input type="text" class="easyui-numberbox" name="maxOmitSum" style="width:90px;"/>
+							    	<input type="text" class="easyui-numberbox" name="minMissingValue" style="width:90px;"/> -
+							    	<input type="text" class="easyui-numberbox" name="maxMissingValue" style="width:90px;"/>
 							    </li>
 							    <li class="left">尾和区间:</li>
 							    <li class="right">
@@ -65,7 +64,7 @@
 							    </li>
 							    <li class="left">区间比:</li>
 							    <li class="right">
-							    	<select name="partition">
+							    	<select name="range">
 										<option value="">全部</option>
 										<option value="6:0:0">6:0:0</option>
 										<option value="5:1:0">5:1:0</option>
@@ -110,7 +109,7 @@
 										<option value="0">0:6</option>
 									</select>
 							    </li>
-							    <li><a id="submit" href="javascript:void(0);" onclick="$('#ssqCountForm').submit();$(this).linkbutton('disable');" class="easyui-linkbutton" icon="icon-ok">确定</a></li>
+							    <li><a id="submit" href="javascript:void(0);" onclick="$('#ssqCountForm').submit();$(this).linkbutton('disable');" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="line-height: 0px">确定</a></li>
 							</ul>
 						</form>
 						<div class="result">

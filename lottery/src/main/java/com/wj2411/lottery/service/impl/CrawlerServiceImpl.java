@@ -43,9 +43,4 @@ public class CrawlerServiceImpl implements CrawlerService {
 		}
 		return null;
 	}
-	
-	
-	private void writeWinningNumbers(String issue, String winningNumber){
-		
-	}
 }

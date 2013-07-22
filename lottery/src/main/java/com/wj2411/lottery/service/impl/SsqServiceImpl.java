@@ -46,19 +46,21 @@ public class SsqServiceImpl implements LotteryService,InitializingBean {
 			int issue = Integer.parseInt(firstLineContent.split(",")[0]);
 			log.info("本地最新的期数: "+issue);
 			
-			// 同步缺失的开奖信息
-			StringBuilder sb = new StringBuilder();
+			// 同步缺失的开奖信息		
 			if(issue < lastWinningInfo.getIssue()){
+				StringBuilder sb = new StringBuilder();
 				for (int i = lastWinningInfo.getIssue(); i > issue; i--) {
 					WinningInfo winningInfo = crawlerService.crawling(ssqWinningNumbersUrl+"/"+i);
 					sb.append(winningInfo.getIssue()+","+winningInfo.getNumber()+"\r\n");
 				}
+				sb.append(fileContent);
+				// 写入开奖信息
+				ByteBuffer contentBuffer = ByteBuffer.wrap(sb.toString().getBytes("UTF-8"));
+				FileUtil.write(SSQWINNINGNUMBERSFILENAME, contentBuffer);
+				
+				// 计算遗漏值
+				calculateMissingValue(sb.toString());
 			}
-			sb.append(fileContent);
-			
-			// 写入开奖信息
-			ByteBuffer contentBuffer = ByteBuffer.wrap(sb.toString().getBytes("UTF-8"));
-			FileUtil.write(SSQWINNINGNUMBERSFILENAME, contentBuffer);
 		} catch (IOException e) {
 			log.error("读取文件异常");
 		}
@@ -146,6 +148,23 @@ public class SsqServiceImpl implements LotteryService,InitializingBean {
 		return data;
 	}
 
+	/**
+	 * 计算遗漏值
+	 */
+	private void calculateMissingValue(String winningNumbers){
+		log.info("开始计算遗漏值");
+		long start = System.currentTimeMillis();
+		
+		int[] missingValue = new int[33];
+		String[] numbers = winningNumbers.split("\r\n");
+		for(String number : numbers){
+			
+		}
+		
+		CacheManager.set("lotteryCache", "missingValue", (Serializable)missingValue);
+		log.info("遗漏值计算完成,耗时:"+(System.currentTimeMillis() - start)+"ms");
+	}
+	
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		init();
