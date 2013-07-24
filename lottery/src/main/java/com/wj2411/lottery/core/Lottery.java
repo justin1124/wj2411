@@ -1,11 +1,11 @@
-package com.wj2411.lottery.service;
+package com.wj2411.lottery.core;
 
 /**
  * 彩票统一接口定义
  * @author 须俊杰
  * @version 1.0 2012-7-11
  */
-public interface LotteryService {
+public interface Lottery {
 	/**
 	 * 初始化
 	 */

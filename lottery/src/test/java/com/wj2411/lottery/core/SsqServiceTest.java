@@ -1,4 +1,4 @@
-package com.wj2411.lottery.service;
+package com.wj2411.lottery.core;
 
 import java.util.List;
 
@@ -11,7 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.wj2411.lottery.common.cache.CacheManager;
-import com.wj2411.lottery.model.Ssq;
+import com.wj2411.lottery.core.Lottery;
+import com.wj2411.lottery.core.support.Ssq;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
@@ -19,7 +20,7 @@ public class SsqServiceTest {
 	private static final Logger log = LoggerFactory.getLogger(SsqServiceTest.class);
 	
 	@Autowired
-	private LotteryService ssqService;
+	private Lottery ssqService;
 	
 	@SuppressWarnings("unchecked")
 	@Test

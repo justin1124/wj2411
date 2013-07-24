@@ -1,11 +1,11 @@
-package com.wj2411.lottery.model;
+package com.wj2411.lottery.controller.support;
 
 /**
  * 双色球计算参数
  * @author 须俊杰
  * @version 1.0 2013-7-22
  */
-public class SsqParam {
+public class SsqForm {
 	private Integer issue;				// 期号
 	private Integer minMissingValue;	// 最小遗漏和
 	private Integer maxMissingValue;	// 最大遗漏和

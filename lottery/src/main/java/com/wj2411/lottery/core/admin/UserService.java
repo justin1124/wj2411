@@ -1,17 +1,20 @@
-package com.wj2411.lottery.service.impl;
+package com.wj2411.lottery.core.admin;
 
 import java.sql.SQLException;
 
 import org.springframework.stereotype.Service;
 
-import com.wj2411.lottery.db.QueryHelper;
-import com.wj2411.lottery.model.User;
-import com.wj2411.lottery.service.UserService;
+import com.wj2411.lottery.core.admin.support.User;
+import com.wj2411.lottery.core.db.QueryHelper;
 
+/**
+ * 用户相关逻辑处理
+ * @author 须俊杰
+ * @version 1.0 2012-7-8
+ */
 @Service("userService")
-public class UserServiceImpl implements UserService {
+public class UserService{
 
-	@Override
 	public User getUserById(Integer userId) {
 		User user = new User();
 		try {

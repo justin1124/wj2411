@@ -8,8 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.wj2411.lottery.model.User;
-import com.wj2411.lottery.service.UserService;
+import com.wj2411.lottery.core.admin.UserService;
 
 @Controller
 @RequestMapping("/user")
@@ -22,9 +21,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/getuser.html", method = RequestMethod.GET)
 	public String getUserById(Model model){
-		User user = userService.getUserById(1);
-		log.debug(user.getName());
-		model.addAttribute("user", user);
+		
 		return "user/lottery_user";
 	}
 }

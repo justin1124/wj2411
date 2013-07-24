@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sdicons.json.mapper.JSONMapper;
 import com.sdicons.json.mapper.MapperException;
 import com.sdicons.json.model.JSONValue;
-import com.wj2411.lottery.model.SsqParam;
+import com.wj2411.lottery.controller.support.SsqForm;
 
 @Controller
 @RequestMapping("/")
@@ -31,14 +31,14 @@ public class SsqController {
 	
 	@RequestMapping(value = "/calculate.html", method = RequestMethod.POST)
 	@ResponseBody
-	public String calculate(SsqParam ssqParam){
+	public String calculate(SsqForm ssqForm){
 		log.debug("calculate ssq number");
 		JSONValue jsonValue;
 		String jsonStr = "";
 		
 		Map<String, Object> modelMap = new HashMap<String, Object>(); 
 		try {
-			System.out.println(ssqParam.getRange());
+			System.out.println(ssqForm.getRange());
 			modelMap.put("result", 1);
 			modelMap.put("data", null);
 		} catch (Exception e) {

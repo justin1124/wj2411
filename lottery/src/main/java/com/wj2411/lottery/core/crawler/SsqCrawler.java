@@ -1,4 +1,4 @@
-package com.wj2411.lottery.service.impl;
+package com.wj2411.lottery.core.crawler;
 
 import org.htmlparser.Parser;
 import org.htmlparser.filters.TagNameFilter;
@@ -7,18 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.wj2411.lottery.model.WinningInfo;
-import com.wj2411.lottery.service.CrawlerService;
+import com.wj2411.lottery.core.support.WinningInfo;
 
 /**
  * 爬虫
  * @author 须俊杰
  * @version 1.0 2013-7-19
  */
-@Service("crawlerService")
-public class CrawlerServiceImpl implements CrawlerService {
+@Service
+public class SsqCrawler implements Crawler {
 
-	private static final Logger log = LoggerFactory.getLogger(CrawlerServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(SsqCrawler.class);
 
 	@Override
 	public WinningInfo crawling(String url) {

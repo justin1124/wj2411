@@ -1,4 +1,4 @@
-package com.wj2411.lottery.model;
+package com.wj2411.lottery.core.support;
 
 import java.io.Serializable;
 

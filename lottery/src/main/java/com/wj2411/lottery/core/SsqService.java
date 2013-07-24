@@ -1,4 +1,4 @@
-package com.wj2411.lottery.service.impl;
+package com.wj2411.lottery.core;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,18 +17,17 @@ import com.wj2411.lottery.common.PropertyConfigurer;
 import com.wj2411.lottery.common.cache.CacheManager;
 import com.wj2411.lottery.common.utils.FileUtil;
 import com.wj2411.lottery.common.utils.MathUtil;
-import com.wj2411.lottery.model.Ssq;
-import com.wj2411.lottery.model.WinningInfo;
-import com.wj2411.lottery.service.CrawlerService;
-import com.wj2411.lottery.service.LotteryService;
+import com.wj2411.lottery.core.crawler.Crawler;
+import com.wj2411.lottery.core.support.Ssq;
+import com.wj2411.lottery.core.support.WinningInfo;
 
 @Service("ssqService")
-public class SsqServiceImpl implements LotteryService,InitializingBean {
+public class SsqService implements Lottery,InitializingBean {
 
-	private static final Logger log = LoggerFactory.getLogger(SsqServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(SsqService.class);
 	private static final String SSQWINNINGNUMBERSFILENAME = "ssq_winning_numbers.txt";
 	@Autowired
-	private CrawlerService crawlerService;
+	private Crawler crawlerService;
 	
 	@Override
 	public void sync() {

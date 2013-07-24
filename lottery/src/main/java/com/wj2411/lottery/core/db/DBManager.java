@@ -1,4 +1,4 @@
-package com.wj2411	.lottery.db;
+package com.wj2411.lottery.core.db;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationHandler;

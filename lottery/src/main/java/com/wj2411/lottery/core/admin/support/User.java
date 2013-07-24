@@ -1,4 +1,4 @@
-package com.wj2411.lottery.model;
+package com.wj2411.lottery.core.admin.support;
 
 /**
  * 用户
