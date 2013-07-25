@@ -26,6 +26,7 @@ public class SsqService implements Lottery,InitializingBean {
 
 	private static final Logger log = LoggerFactory.getLogger(SsqService.class);
 	private static final String SSQWINNINGNUMBERSFILENAME = "ssq_winning_numbers.txt";
+	private static final int REDNUM = 33;
 	@Autowired
 	private Crawler crawlerService;
 	
@@ -142,7 +143,7 @@ public class SsqService implements Lottery,InitializingBean {
 	private List<int[]> create() {
 		log.info("开始创建双色球所有红球组合");
 		List<int[]> data = new ArrayList<int[]>();
-		MathUtil.combine(new int[6], 33, 6, 0, data);
+		MathUtil.combine(new int[6], REDNUM, 6, 0, data);
 		log.info("双色球所有红球组合创建完毕，总数 : " + data.size());
 		return data;
 	}
@@ -150,16 +151,34 @@ public class SsqService implements Lottery,InitializingBean {
 	/**
 	 * 计算遗漏值
 	 */
-	private void calculateMissingValue(String winningNumbers){
+	private void calculateMissingValue(String winningInfo){
 		log.info("开始计算遗漏值");
 		long start = System.currentTimeMillis();
 		
-		int[] missingValue = new int[33];
-		String[] numbers = winningNumbers.split("\r\n");
-		for(String number : numbers){
-			
+		/* 初始化结果集 */
+		int[] missingValue = new int[REDNUM];
+		for (int i = 0; i < missingValue.length; i++) {
+			missingValue[i] = -1;
 		}
-		
+
+		int remainNum = REDNUM;
+		int missingNum = 0;
+		String[] winningInfoArray = winningInfo.split("\r\n");
+		for (String info : winningInfoArray) {
+			if (remainNum <= 0) {
+				break;
+			}
+			String numbers = info.split(",")[1];
+			for (int i = 0; i < numbers.length(); i = i + 2) {
+				int number = Integer.parseInt(numbers.substring(i, i + 2));
+				if (missingValue[number - 1] == -1) {
+					missingValue[number - 1] = missingNum;
+					remainNum--;
+				}
+			}
+			missingNum++;
+		}
+		log.info("遗漏值:"+ArrayUtils.toString(missingValue));
 		CacheManager.set("lotteryCache", "missingValue", (Serializable)missingValue);
 		log.info("遗漏值计算完成,耗时:"+(System.currentTimeMillis() - start)+"ms");
 	}
