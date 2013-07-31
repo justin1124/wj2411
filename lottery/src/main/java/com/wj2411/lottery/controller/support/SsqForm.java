@@ -14,9 +14,12 @@ public class SsqForm {
 	private Integer maxSumTail;			// 最大尾和
 	private Integer min;				// 最小和值
 	private Integer max;				// 最大和值
-	private Integer horizontalLink;		// 是否横连
-	private Integer verticalLink;		// 是否竖连
+	private Boolean horizontalLink;		// 是否横连
+	private Boolean verticalLink;		// 是否竖连
 	private String range;				// 区间比
+	private Integer range1;				// 区间1
+	private Integer range2;				// 区间2
+	private Integer range3;				// 区间3
 	private Integer primeNum;			// 质数个数
 
 	public Integer getIssue() {
@@ -43,16 +46,16 @@ public class SsqForm {
 	public void setMax(Integer max) {
 		this.max = max;
 	}
-	public Integer getHorizontalLink() {
+	public Boolean getHorizontalLink() {
 		return horizontalLink;
 	}
-	public void setHorizontalLink(Integer horizontalLink) {
+	public void setHorizontalLink(Boolean horizontalLink) {
 		this.horizontalLink = horizontalLink;
 	}
-	public Integer getVerticalLink() {
+	public Boolean getVerticalLink() {
 		return verticalLink;
 	}
-	public void setVerticalLink(Integer verticalLink) {
+	public void setVerticalLink(Boolean verticalLink) {
 		this.verticalLink = verticalLink;
 	}
 	public String getRange() {
@@ -90,5 +93,23 @@ public class SsqForm {
 	}
 	public void setMaxSumTail(Integer maxSumTail) {
 		this.maxSumTail = maxSumTail;
+	}
+	public Integer getRange1() {
+		return range1;
+	}
+	public void setRange1(Integer range1) {
+		this.range1 = range1;
+	}
+	public Integer getRange2() {
+		return range2;
+	}
+	public void setRange2(Integer range2) {
+		this.range2 = range2;
+	}
+	public Integer getRange3() {
+		return range3;
+	}
+	public void setRange3(Integer range3) {
+		this.range3 = range3;
 	}
 }

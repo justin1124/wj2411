@@ -5,6 +5,11 @@ $(function(){
 	    success:function(item){
 	    	var d = eval('('+item+')');
 	    	var data = d.data;
+	    	if(data == null){
+	    		$("#result").html("<a style='color:red'>查询结果为空!</a>");
+	    		$("#submit").linkbutton('enable');
+	    		return;
+	    	}
 	    	var length = data.length;
 	    	var temp = "";
 	    	if(d.result > 0){

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,6 +18,7 @@ import com.wj2411.lottery.common.PropertyConfigurer;
 import com.wj2411.lottery.common.cache.CacheManager;
 import com.wj2411.lottery.common.utils.FileUtil;
 import com.wj2411.lottery.common.utils.MathUtil;
+import com.wj2411.lottery.controller.support.SsqForm;
 import com.wj2411.lottery.core.crawler.Crawler;
 import com.wj2411.lottery.core.support.Ssq;
 import com.wj2411.lottery.core.support.WinningInfo;
@@ -84,39 +86,42 @@ public class SsqService implements Lottery,InitializingBean {
 			int range2 = 0;				// 区间2个数
 			int range3 = 0;				// 区间3个数
 			int	primeNum = 0;			// 质数个数
+			boolean horizontalLink = false; // 横连
 			
-			for(int redBall : redBalls){
+			for (int i = 0; i < redBalls.length; i++) {
+				int redBall = redBalls[i];
 				// 奇数计算
-				if(redBall % 2 != 0)
+				if (redBall % 2 != 0) {
 					oddNum++;
-				
+				}
+
 				// 尾和统计
 				unitsDigitSum += redBall % 10;
-				
+
 				// 和值计算
 				redBallSum += redBall;
-				
+
 				// 计算区间个数
-				if (redBall <= 11)
+				if (redBall <= 11) {
 					range1++;
-				else if (redBall > 11 && redBall <= 22)
+				} else if (redBall > 11 && redBall <= 22) {
 					range2++;
-				else
+				} else {
 					range3++;
-				
+				}
+
 				// 质数个数
-				if(redBall == 1 || redBall == 2 
-						|| redBall == 3 
-						|| redBall == 5 
-						|| redBall == 7 
-						|| redBall == 11 
-						|| redBall == 13 
-						|| redBall == 17 
-						|| redBall == 19 
-						|| redBall == 23 
-						|| redBall == 29 
-						|| redBall == 31)
+				if (redBall == 1 || redBall == 2 || redBall == 3
+						|| redBall == 5 || redBall == 7 || redBall == 11
+						|| redBall == 13 || redBall == 17 || redBall == 19
+						|| redBall == 23 || redBall == 29 || redBall == 31){
 					primeNum++;
+				}
+				
+				// 是否横连
+				if (i > 0 && redBall - redBalls[i - 1] == 1 && !horizontalLink) {
+					horizontalLink = true;
+				}
 			}
 			
 			ArrayUtils.reverse(redBalls);	// 翻转数组元素排列次序
@@ -130,6 +135,7 @@ public class SsqService implements Lottery,InitializingBean {
 			ssq.setRange3(range3);
 			ssq.setUnitsDigitSum(unitsDigitSum);
 			ssq.setPrimeNum(primeNum);
+			ssq.setHorizontalLink(horizontalLink);
 			
 			ssqList.add(ssq);
 		}
@@ -186,5 +192,69 @@ public class SsqService implements Lottery,InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		init();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<int[]> calculate(SsqForm ssqForm) {
+		log.info("开始计算双色球组合");
+		long start = System.currentTimeMillis();
+		
+		List<int[]> result = new ArrayList<int[]>();
+		
+		/* 从缓存中获取当前双色球信息 */
+		List<Ssq> ssqList = (List<Ssq>) CacheManager.get("lotteryCache","redBalls");
+		int[] missingValue = (int[]) CacheManager.get("lotteryCache","missingValue");
+		
+		/* 遍历所有红球 */
+		for (Ssq ssq : ssqList) {
+			// 判断奇数个数
+			if (ssqForm.getOddNum() != null
+					&& ssq.getOddNum() != ssqForm.getOddNum()) {
+				continue;
+			}
+			
+			// 判断尾和
+			if (ssqForm.getMinSumTail() != null
+					&& ssqForm.getMaxSumTail() != null
+					&& (ssq.getUnitsDigitSum() < ssqForm.getMinSumTail() || ssq
+							.getUnitsDigitSum() > ssqForm.getMaxSumTail())) {
+				continue;
+			}
+			
+			// 判断和值
+			if (ssqForm.getMin() != null
+					&& ssqForm.getMax() != null
+					&& (ssq.getRedBallSum() < ssqForm.getMin() || ssq
+							.getRedBallSum() > ssqForm.getMax())) {
+				continue;
+			}
+			
+			// 判断横连
+			if (ssqForm.getHorizontalLink() != null
+					&& ssq.isHorizontalLink() != ssqForm.getHorizontalLink()) {
+				continue;
+			}
+			
+			// 判断竖连
+			
+			// 判断区间
+			if (StringUtils.isNotEmpty(ssqForm.getRange())
+					&& (ssq.getRange1() != ssqForm.getRange1()
+							|| ssq.getRange2() != ssqForm.getRange2() 
+							|| ssq.getRange3() != ssqForm.getRange3())) {
+				continue;
+			}
+			
+			// 判断质数
+			if (ssqForm.getPrimeNum() != null
+					&& ssq.getPrimeNum() != ssqForm.getPrimeNum()) {
+				continue;
+			}
+			result.add(ssq.getRedBalls());
+		}
+		
+		log.info("双色球组合计算完毕,耗时:"+(System.currentTimeMillis() - start)+"ms");
+		return result;
 	}
 }

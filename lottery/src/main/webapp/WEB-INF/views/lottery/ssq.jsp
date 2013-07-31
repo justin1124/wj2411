@@ -50,16 +50,16 @@
 							    <li class="right">
 							    	<select name="horizontalLink">
 										<option value="">全部</option>
-										<option value="1">是</option>
-										<option value="0">否</option>
+										<option value="true">是</option>
+										<option value="false">否</option>
 									</select>
 							    </li>
 							    <li class="left">是否竖连:</li>
 							    <li class="right">
 							    	<select name="verticalLink">
 										<option value="">全部</option>
-										<option value="1">是</option>
-										<option value="0">否</option>
+										<option value="true">是</option>
+										<option value="false">否</option>
 									</select>
 							    </li>
 							    <li class="left">区间比:</li>

@@ -19,6 +19,7 @@ public class Ssq implements Serializable{
 	private int range2;			// 区间2个数
 	private int range3;			// 区间3个数
 	private int primeNum;		// 质数个数
+	private boolean horizontalLink; // 横连
 	
 	public int[] getRedBalls() {
 		return redBalls;
@@ -73,5 +74,11 @@ public class Ssq implements Serializable{
 	}
 	public void setPrimeNum(int primeNum) {
 		this.primeNum = primeNum;
+	}
+	public boolean isHorizontalLink() {
+		return horizontalLink;
+	}
+	public void setHorizontalLink(boolean horizontalLink) {
+		this.horizontalLink = horizontalLink;
 	}
 }
