@@ -63,8 +63,17 @@ public class SsqService implements Lottery,InitializingBean {
 				// 计算遗漏值
 				calculateMissingValue(sb.toString());
 			}
+			
+			// 缓存最新开奖号码
+			log.info("缓存最新开奖号码: "+lastWinningInfo.getNumber());
+			int[] lastWinningNum = new int[7];
+			for (int i = 0; i < lastWinningInfo.getNumber().length(); i = i + 2) {
+                int number = Integer.parseInt(lastWinningInfo.getNumber().substring(i, i + 2));
+                lastWinningNum[i / 2] = number;
+            }
+			CacheManager.set("lotteryCache", "lastWinningNum", (Serializable)lastWinningNum);
 		} catch (IOException e) {
-			log.error("读取文件异常");
+			log.error("读取文件异常",e);
 		}
 	}
 	
@@ -118,8 +127,8 @@ public class SsqService implements Lottery,InitializingBean {
 					primeNum++;
 				}
 				
-				// 是否横连
-				if (i > 0 && redBall - redBalls[i - 1] == 1 && !horizontalLink) {
+				// 是否横连				
+				if (i > 0 && redBall - redBalls[i - 1] == -1 && !horizontalLink) {
 					horizontalLink = true;
 				}
 			}
@@ -192,6 +201,8 @@ public class SsqService implements Lottery,InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		init();
+		
+		sync();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -205,6 +216,7 @@ public class SsqService implements Lottery,InitializingBean {
 		/* 从缓存中获取当前双色球信息 */
 		List<Ssq> ssqList = (List<Ssq>) CacheManager.get("lotteryCache","redBalls");
 		int[] missingValue = (int[]) CacheManager.get("lotteryCache","missingValue");
+		int[] lastWinningNum = (int[])CacheManager.get("lotteryCache", "lastWinningNum");
 		
 		/* 遍历所有红球 */
 		for (Ssq ssq : ssqList) {
@@ -236,8 +248,6 @@ public class SsqService implements Lottery,InitializingBean {
 				continue;
 			}
 			
-			// 判断竖连
-			
 			// 判断区间
 			if (StringUtils.isNotEmpty(ssqForm.getRange())
 					&& (ssq.getRange1() != ssqForm.getRange1()
@@ -251,6 +261,39 @@ public class SsqService implements Lottery,InitializingBean {
 					&& ssq.getPrimeNum() != ssqForm.getPrimeNum()) {
 				continue;
 			}
+			
+			boolean isVerticalLink = false;
+			int totalMissingValue = 0;
+			for(int redBall : ssq.getRedBalls()){
+			    // 判断竖连
+			    if(ssqForm.getVerticalLink() != null && !isVerticalLink){
+	                for(int i = 0;i < lastWinningNum.length - 1;i++){
+	                    int num = lastWinningNum[i];
+	                    if(redBall == num){
+	                        isVerticalLink = true;
+	                        break;
+	                    }
+	                }
+	            }
+			    
+			    // 累加遗漏和
+			    totalMissingValue += missingValue[redBall - 1];
+			}
+			
+			// 判断竖连
+			if(ssqForm.getVerticalLink() != null 
+			        && ssqForm.getVerticalLink() != isVerticalLink){
+			    continue;
+			}
+			
+			// 判断遗漏和
+			if (ssqForm.getMinMissingValue() != null
+                    && ssqForm.getMaxMissingValue() != null
+                    && (totalMissingValue < ssqForm.getMinMissingValue() 
+                            || totalMissingValue > ssqForm.getMaxMissingValue())) {
+                continue;
+            }
+			
 			result.add(ssq.getRedBalls());
 		}
 		

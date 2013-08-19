@@ -11,20 +11,26 @@ $(function(){
 	    		return;
 	    	}
 	    	var length = data.length;
-	    	var temp = "";
+	    	var content = "";
 	    	if(d.result > 0){
-	    		$.messager.alert('成功','计算完成,共有['+length+']个结果,请检查文件!','info');
-	    		for(var i = 0;i < length;++i){
-	    			var number = data[i];
-	    			var t = "";
-	    			for(var j = number.length - 1;j >= 0 ;--j){
-	    				t += number[j] < 10 ? "0"+number[j] : number[j];
-	    				if(j > 0)
-							t += " ";
-	    			}
-	    			temp += "<a>"+t+"</a><br>";
-	    		}
-	    		$("#result").html(temp);
+	    		if(length > 1000){
+	    			$.messager.alert('成功','查询结果太多,共有['+length+']个结果,请增加或修改查询条件!','info');
+		    	} else {
+		    		$.messager.alert('成功','计算完成,共有['+length+']个结果,请检查文件!','info');
+		    		$("#result").html("");
+		    		for(var i = 0;i < length;++i){
+		    			var number = data[i];
+		    			var t = "";
+		    			for(var j = 0;j < number.length ;j++){
+		    				t += number[j] < 10 ? "0"+number[j] : number[j];
+		    				if(j < number.length)
+								t += " ";
+		    			}
+		    			content += "<a>"+t+"</a><br>";
+		    		}
+		    	}
+	    		
+	    		$("#result").html(content);
 	    		$("#submit").linkbutton('enable');
 	    	}else{
 	    		$.messager.alert('失败','计算失败!','error');
