@@ -13,7 +13,7 @@
 			<!-- start content -->
 			<div id="content">
 				<div class="post">
-					<h2 class="title">双色球计算器(红球)</h2>
+					<h2 class="title">双色球计算器</h2>
 					<p class="meta"><span style="color:red">不想加入计算的域请留空!</span></p>
 					<div class="entry">
 						<form id="ssqCountForm" method="post">
@@ -109,11 +109,15 @@
 										<option value="0">0:6</option>
 									</select>
 							    </li>
+							    <li class="left">蓝球遗漏值:</li>
+							    <li class="right">
+							    	<input type="text" class="easyui-numberbox" name="blueMissingValue" style="width:90px;"/>
+							    </li>
 							    <li><a id="submit" href="javascript:void(0);" onclick="$('#ssqCountForm').submit();$(this).linkbutton('disable');" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="line-height: 0px">确定</a></li>
 							</ul>
 						</form>
 						<div class="result">
-							<div id="result" class="easyui-panel" title="计算结果" collapsible="true" style="width:160px;height:300px;padding:10px 20px;background:#fafafa;">
+							<div id="result" class="easyui-panel" title="计算结果" collapsible="true" style="width:170px;height:300px;padding:10px 20px;background:#fafafa;">
 							</div>
 						</div>
 					</div>

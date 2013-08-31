@@ -4,19 +4,19 @@ $(function(){
 	    url:'calculate.html',  
 	    success:function(item){
 	    	var d = eval('('+item+')');
-	    	var data = d.data;
-	    	if(data == null){
-	    		$("#result").html("<a style='color:red'>查询结果为空!</a>");
-	    		$("#submit").linkbutton('enable');
-	    		return;
-	    	}
-	    	var length = data.length;
-	    	var content = "";
-	    	if(d.result > 0){
+	    	if(d.result == 1){
+	    		var data = d.data;
+		    	if(data == null){
+		    		$("#result").html("<a style='color:red'>查询结果为空!</a>");
+		    		$("#submit").linkbutton('enable');
+		    		return;
+		    	}
+		    	var length = data.length;
+		    	var content = "";
 	    		if(length > 1000){
 	    			$.messager.alert('成功','查询结果太多,共有['+length+']个结果,请增加或修改查询条件!','info');
 		    	} else {
-		    		$.messager.alert('成功','计算完成,共有['+length+']个结果,请检查文件!','info');
+		    		$.messager.alert('成功','计算完成,共有['+length+']个结果!','info');
 		    		$("#result").html("");
 		    		for(var i = 0;i < length;++i){
 		    			var number = data[i];
@@ -31,11 +31,13 @@ $(function(){
 		    	}
 	    		
 	    		$("#result").html(content);
-	    		$("#submit").linkbutton('enable');
+	    		
+	    	}else if(d.result == 2){
+	    		$("#result").html("<a style='color:red'>请输入至少4种查询条件</a><br>");
 	    	}else{
 	    		$.messager.alert('失败','计算失败!','error');
-	    		$("#submit").linkbutton('enable');
 	    	}
+	    	$("#submit").linkbutton('enable');
 	    },
 	    error : function(){
     		$.messager.alert('失败','请求超时,请检查网络!','error');

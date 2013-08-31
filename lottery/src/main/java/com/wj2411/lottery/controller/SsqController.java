@@ -44,15 +44,51 @@ public class SsqController {
 		
 		Map<String, Object> modelMap = new HashMap<String, Object>(); 
 		try {
-			if(StringUtils.isNotEmpty(ssqForm.getRange())){
-				String[] rangeArray = ssqForm.getRange().split(":");
-				ssqForm.setRange1(Integer.valueOf(rangeArray[0]));
-				ssqForm.setRange2(Integer.valueOf(rangeArray[1]));
-				ssqForm.setRange3(Integer.valueOf(rangeArray[2]));
-			}
-			List<int[]> data = ssqService.calculate(ssqForm);
-			modelMap.put("result", 1);
-			modelMap.put("data", data);
+		    // 验证输入参数
+		    int nullParamsNum = 0;
+		    if(ssqForm.getMinMissingValue() == null 
+		            || ssqForm.getMaxMissingValue() == null){
+		        nullParamsNum++;
+		    }
+		    if(ssqForm.getOddNum() == null){
+		        nullParamsNum++;
+		    }
+		    if(ssqForm.getMinSumTail() == null 
+                    || ssqForm.getMaxSumTail() == null){
+		        nullParamsNum++;
+            }
+		    if(ssqForm.getMin() == null 
+                    || ssqForm.getMax() == null){
+		        nullParamsNum++;
+            }
+		    if(ssqForm.getHorizontalLink() == null){
+		        nullParamsNum++;
+            }
+		    if(ssqForm.getVerticalLink() == null){
+		        nullParamsNum++;
+            }
+		    if(StringUtils.isBlank(ssqForm.getRange())){
+		        nullParamsNum++;
+            }
+		    if(ssqForm.getPrimeNum() == null){
+		        nullParamsNum++;
+            }
+		    
+		    if(nullParamsNum > 4){
+		        log.error("查询条件少于4个,不允许进行计算,nullParamsNum = "+nullParamsNum);
+		        modelMap.put("result", 2);
+		    } else {
+		        if(StringUtils.isNotEmpty(ssqForm.getRange())){
+	                String[] rangeArray = ssqForm.getRange().split(":");
+	                ssqForm.setRange1(Integer.valueOf(rangeArray[0]));
+	                ssqForm.setRange2(Integer.valueOf(rangeArray[1]));
+	                ssqForm.setRange3(Integer.valueOf(rangeArray[2]));
+	            }
+	            List<int[]> data = ssqService.calculate(ssqForm);
+	            modelMap.put("result", 1);
+	            modelMap.put("data", data);
+		    }
+			
 		} catch (Exception e) {
 			log.error("calculate ssq number error",e);
 			modelMap.put("result", 0);
