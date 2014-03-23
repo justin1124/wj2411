@@ -7,5 +7,5 @@ package com.screw;
  */
 public interface Screw {
 
-    Object fromXML(String xml);
+	<T> T fromXML(String xml, Class<T> clazz);
 }
