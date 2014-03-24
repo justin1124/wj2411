@@ -2,55 +2,45 @@ package com.screw;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class StAXScrew extends AbstractScrew {
+import com.screw.common.utils.StringUtils;
+import com.screw.exception.ScrewException;
+import com.screw.parser.Parser;
+import com.screw.parser.ParserConstants;
+import com.screw.parser.ParserFactory;
+
+/**
+ * parse xml by StAX
+ * 
+ * @author 须俊杰
+ * @2014-3-24
+ */
+public class StAXScrew implements Screw{
+
+    private static final Logger logger = LoggerFactory.getLogger(StAXScrew.class);
 
     @Override
     public <T> T fromXML(String xml, Class<T> clazz) {
-        Map<String, Method> setterMethodMap = setterCache.get(clazz);
-        if (setterMethodMap == null) {
-            addSetterMethod(clazz);
-            setterMethodMap = setterCache.get(clazz);
+        if (StringUtils.isBlank(xml)) {
+            throw new ScrewException("xml param can not be null");
         }
-        
-        InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        try {
-            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
-            
-            T obj = clazz.newInstance();
-            while(reader.hasNext()){
-                int event = reader.next();
-                // 如果是元素的开始
-                if(event == XMLStreamConstants.START_ELEMENT){
-                    String element = reader.getLocalName();
-                    Method method = setterMethodMap.get(element);
-                    if(method != null){
-                        method.invoke(obj, reader.getElementText());
-                    }
-                }
-            }
-            return obj;
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        if (clazz == null) {
+            throw new ScrewException("clazz param can not be null");
         }
 
-        return null;
+        InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
+        try {
+            T obj = clazz.newInstance();
+            Parser staxParser = ParserFactory.getParser(ParserConstants.STAX);
+            staxParser.parse(inputStream, obj);
+
+            return obj;
+        } catch (Exception e) {
+            logger.error("Convert error : Class = " + clazz.getName(), e);
+            throw new ScrewException();
+        }
     }
 }

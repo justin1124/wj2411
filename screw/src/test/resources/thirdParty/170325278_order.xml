@@ -1,0 +1,145 @@
+<Order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Id>0</Id>
+	<Name>孙慧</Name>
+	<Where>北京通州区五环到六环之间北京通州区六环以外马驹桥镇周营村200号建材市场</Where>
+	<Zip>101102</Zip>
+	<Mobile>18911723866</Mobile>
+	<Phone />
+	<Email />
+	<Province>1</Province>
+	<City>2809</City>
+	<County>4175</County>
+	<pin>123456two</pin>
+	<IdProvince>1</IdProvince>
+	<IdCity>2809</IdCity>
+	<IdArea>4175</IdArea>
+	<Pin>123456two</Pin>
+	<TypeId>0</TypeId>
+	<IdTown>0</IdTown>
+	<messages />
+	<CouponDiscount>0</CouponDiscount>
+	<DiscountLipinka>0</DiscountLipinka>
+	<TotalFee>0</TotalFee>
+	<FeeDetails />
+	<MoneyBalance>0</MoneyBalance>
+	<IsUseBalance>false</IsUseBalance>
+	<TokenRequired />
+	<TokenDonated />
+	<TokenConsumed />
+	<Price>198.00</Price>
+	<PromotionPrice>169.00</PromotionPrice>
+	<Discount>29.00</Discount>
+	<OrderId>797301113</OrderId>
+	<IdPaymentType>1</IdPaymentType>
+	<IdShipmentType>70</IdShipmentType>
+	<IdInvoicePutType>0</IdInvoicePutType>
+	<IsPutBookInvoice>false</IsPutBookInvoice>
+	<IdInvoiceContentTypeBook>4</IdInvoiceContentTypeBook>
+	<IdInvoiceType>1</IdInvoiceType>
+	<IdInvoiceHeaderType>4</IdInvoiceHeaderType>
+	<IdInvoiceContentsType>1</IdInvoiceContentsType>
+	<CODTime>3</CODTime>
+	<CodDate>2013-10-16T00:00:00+08:00</CodDate>
+	<IsCodInform>false</IsCodInform>
+	<PaymentWay>0</PaymentWay>
+	<IdPickSite>0</IdPickSite>
+	<IsInv>true</IsInv>
+	<InvoiceTitle>个人</InvoiceTitle>
+	<Notes>CanSubmitStart,CanSubmitStart[11],0,1,2,3,4,5,6,7,8,9,10,CanSubmitStartresultTrue,</Notes>
+	<TheCoupons />
+	<TheLipinkas />
+	<IdSchool>0</IdSchool>
+	<IdAgent>0</IdAgent>
+	<CommendAgent />
+	<IdCompanyBranch>543</IdCompanyBranch>
+	<IdDelivery>0</IdDelivery>
+	<ServerName>B28W132-166</ServerName>
+	<OrderType>25</OrderType>
+	<DiscountMobile>0</DiscountMobile>
+	<DiscountMobileInit>0</DiscountMobileInit>
+	<DiscountTelecomIntegral>0</DiscountTelecomIntegral>
+	<IsUseTelecomIntegral>false</IsUseTelecomIntegral>
+	<UnionAlternationDays>0</UnionAlternationDays>
+	<UnionId>0</UnionId>
+	<UnionSiteId />
+	<UnionUserName />
+	<UnionTime>0001-01-01T00:00:00</UnionTime>
+	<ClientIP>122.71.51.191</ClientIP>
+	<UserId>72762442</UserId>
+	<IsRegister>false</IsRegister>
+	<UserLevel>62</UserLevel>
+	<RePrice>5.00</RePrice>
+	<IdBank>0</IdBank>
+	<PayType>0</PayType>
+	<BidId>0</BidId>
+	<Ver>0</Ver>
+	<IsNewOrder>false</IsNewOrder>
+	<StoreId>0</StoreId>
+	<ParentId>0</ParentId>
+	<FromId>0</FromId>
+	<SplitType>0</SplitType>
+	<Debt>0</Debt>
+	<OrderBulk>6153</OrderBulk>
+	<IsJdShip>true</IsJdShip>
+	<RfType>0</RfType>
+	<Tags>
+		<int>1009</int>
+		<int>1005</int>
+		<int>3011</int>
+	</Tags>
+	<SendPay>00000000000000000000000000001000000000000000000000</SendPay>
+	<TheExt />
+	<TheExts />
+	<TheExtTags>
+		<ExtTagPair>
+			<Key>PromoUuid</Key>
+			<Val>PROMO-19c13cb0-8cac-4e4f-89be-2ef55ebf419b</Val>
+		</ExtTagPair>
+		<ExtTagPair>
+			<Key>TodayNum</Key>
+			<Val>2</Val>
+		</ExtTagPair>
+	</TheExtTags>
+	<CSOrderType>0</CSOrderType>
+	<IdOrders />
+	<InitFactPrice>0</InitFactPrice>
+	<Status>6</Status>
+	<Status2>0</Status2>
+	<Printx>0</Printx>
+	<Ziti>0</Ziti>
+	<Yn>0</Yn>
+	<IsForAddCoupon>false</IsForAddCoupon>
+	<IsSubsidy>true</IsSubsidy>
+	<CreateDate>2013-10-16T17:01:47.63</CreateDate>
+	<ScareBuyState>0</ScareBuyState>
+	<Pop>
+		<VenderId>11056</VenderId>
+		<VenderName>广州市勤昌信息技术有限公司</VenderName>
+		<VenderType>5</VenderType>
+		<AreaNum>1</AreaNum>
+	</Pop>
+	<TheFroms />
+	<ShipTime>0</ShipTime>
+	<OrderGuid>01f94025-368b-47ec-885b-afe174193fe6</OrderGuid>
+	<ElePowDiscount>0</ElePowDiscount>
+	<CouponCodeDiscount>0</CouponCodeDiscount>
+	<IsUseScore>false</IsUseScore>
+	<JiFenCount>0</JiFenCount>
+	<JiFenDiscountMoney>0</JiFenDiscountMoney>
+	<PayDifferenceDiscount>0</PayDifferenceDiscount>
+	<SelectedBankId>0</SelectedBankId>
+	<SelectedPeriod>0</SelectedPeriod>
+	<FreightInfo>
+		<FreightEntity>
+			<Wid>0</Wid>
+			<VendorId>0</VendorId>
+			<Num>0</Num>
+			<NeedFee>0</NeedFee>
+			<Type>1</Type>
+		</FreightEntity>
+	</FreightInfo>
+	<PaymentInfoList />
+	<ShipmentInfoList />
+	<DParentId>0</DParentId>
+</Order>

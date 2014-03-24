@@ -1,24 +1,26 @@
 package com.screw;
 
+import java.math.BigDecimal;
+
 public class Order {
 
-    private String id;
-    private String price;
+    private int id;
+    private BigDecimal price;
     private String address;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

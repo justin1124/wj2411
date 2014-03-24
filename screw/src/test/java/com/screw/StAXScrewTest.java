@@ -14,7 +14,6 @@ public class StAXScrewTest {
         String xml = StringUtils.convertStreamToString(input);
         Screw saxScrew = new StAXScrew();
         Order order = saxScrew.fromXML(xml, Order.class);
-        System.out.println("==============================");
         System.out.println(order.getId());
         System.out.println(order.getPrice());
         System.out.println(order.getAddress());
