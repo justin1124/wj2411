@@ -6,7 +6,8 @@ public class Order {
 
     private int id;
     private BigDecimal price;
-    private String address;
+    private String where;
+//    private int[] tags;
 
     public int getId() {
         return id;
@@ -24,11 +25,20 @@ public class Order {
         this.price = price;
     }
 
-    public String getAddress() {
-        return address;
+    public String getWhere() {
+        return where;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setWhere(String where) {
+        this.where = where;
     }
+
+//    public int[] getTags() {
+//        return tags;
+//    }
+//
+//    public void setTags(int[] tags) {
+//        this.tags = tags;
+//    }
+
 }

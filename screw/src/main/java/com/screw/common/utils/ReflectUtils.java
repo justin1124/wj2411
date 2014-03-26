@@ -7,13 +7,14 @@ import java.util.Map;
 
 /**
  * 反射工具类
+ * 
  * @author 须俊杰
  * @2014年3月23日
  */
 public class ReflectUtils {
 
     /**
-     * 根据运行时类获取对象的所有setter方法
+     * 获取对象的所有setter方法
      * @param clazz
      * @return
      */

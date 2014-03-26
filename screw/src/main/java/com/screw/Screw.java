@@ -1,17 +1,17 @@
 package com.screw;
 
 /**
- * parse xml
+ * 解析XML
  * @author 须俊杰
  * @2014-3-21
  */
 public interface Screw {
 
     /**
-     * convert xml string to object of clazz
-     * @param xml xml format string
-     * @param clazz 
-     * @return The instance of the clazz
+     * 将XML字符串转换成指定类型的对象
+     * @param xml XML字符串
+     * @param clazz 对象类型
+     * @return 指定类型对象的实例
      */
 	<T> T fromXML(String xml, Class<T> clazz);
 	

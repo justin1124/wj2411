@@ -12,7 +12,10 @@ import javax.xml.stream.XMLStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.screw.common.CachePool;
+import com.screw.common.utils.Assert;
 import com.screw.common.utils.ConvertUtils;
+import com.screw.common.utils.ReflectUtils;
 import com.screw.exception.ScrewException;
 
 public class StAXParser extends AbstractParser {
@@ -20,37 +23,30 @@ public class StAXParser extends AbstractParser {
     private static final Logger logger = LoggerFactory.getLogger(StAXParser.class);
     
     public void parse(InputStream inputStream, Object obj){
-        if(inputStream == null){
-            logger.error("inputStream can not be null");
-            throw new ScrewException();
-        }
-        if(obj == null){
-            logger.error("obj can not be null");
-            throw new ScrewException();
-        }
+        Assert.notNull(inputStream, "InputStream must not be null");
+        Assert.notNull(obj, "Obj must not be null");
         
         XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
 
             Class<?> clazz = obj.getClass();
-            Map<String, Method> setterMethodMap = setterPool.get(clazz);
+            Map<String, Method> setterMethodMap = CachePool.getSetterMethods(clazz);
             if (setterMethodMap == null) {
-                addSetterMethod(clazz);
-                setterMethodMap = setterPool.get(clazz);
+                CachePool.putSetterMethodsIntoCachePool(clazz, ReflectUtils.getSetterMethods(clazz));
+                setterMethodMap = CachePool.getSetterMethods(clazz);
             }
             
             while (reader.hasNext()) {
                 int event = reader.next();
                 if (event == XMLStreamConstants.START_ELEMENT) {
                     String element = reader.getLocalName();
-                    Method method = setterMethodMap.get(element);
+                    Method method = setterMethodMap.get(element.toLowerCase());
                     if (method != null) {
                         String content = reader.getElementText();
                         logger.debug("name : " + element + " , content : "+ content);
                         
                         Type[] types = method.getGenericParameterTypes();
-                        
                         method.invoke(obj, ConvertUtils.convert(content, types[0]));
                     }
                 }
