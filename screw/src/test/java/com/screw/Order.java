@@ -7,7 +7,7 @@ public class Order {
     private int id;
     private BigDecimal price;
     private String where;
-//    private int[] tags;
+    private Cart cart;
 
     public int getId() {
         return id;
@@ -33,12 +33,12 @@ public class Order {
         this.where = where;
     }
 
-//    public int[] getTags() {
-//        return tags;
-//    }
-//
-//    public void setTags(int[] tags) {
-//        this.tags = tags;
-//    }
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
 }

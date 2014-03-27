@@ -15,28 +15,26 @@ import org.slf4j.LoggerFactory;
 import com.screw.common.CachePool;
 import com.screw.common.utils.Assert;
 import com.screw.common.utils.ConvertUtils;
-import com.screw.common.utils.ReflectUtils;
 import com.screw.exception.ScrewException;
 
 public class StAXParser extends AbstractParser {
 
     private static final Logger logger = LoggerFactory.getLogger(StAXParser.class);
     
-    public void parse(InputStream inputStream, Object obj){
-        Assert.notNull(inputStream, "InputStream must not be null");
-        Assert.notNull(obj, "Obj must not be null");
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T parse(InputStream inputStream, Class<?> clazz){
+        Assert.notNull(inputStream, "InputStream不能为空");
+        Assert.notNull(clazz, "Clazz不能为空");
         
-        XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
-            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
-
-            Class<?> clazz = obj.getClass();
-            Map<String, Method> setterMethodMap = CachePool.getSetterMethods(clazz);
-            if (setterMethodMap == null) {
-                CachePool.putSetterMethodsIntoCachePool(clazz, ReflectUtils.getSetterMethods(clazz));
-                setterMethodMap = CachePool.getSetterMethods(clazz);
-            }
+            init(clazz);
+            Object obj = clazz.newInstance();
             
+            Map<String, Method> setterMethodMap = CachePool.getSetterMethods(clazz);
+            
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
             while (reader.hasNext()) {
                 int event = reader.next();
                 if (event == XMLStreamConstants.START_ELEMENT) {
@@ -51,8 +49,9 @@ public class StAXParser extends AbstractParser {
                     }
                 }
             }
+            return (T) obj;
         } catch (Exception e) {
-            logger.error("Parse error : Class = " + obj.getClass().getName(), e);
+            logger.error("解析错误 : Class = " + clazz.getName(), e);
             throw new ScrewException();
         }
     }
