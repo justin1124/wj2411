@@ -1,4 +1,4 @@
-package com.screw;
+package com.screw.common;
 
 import org.junit.Test;
 
