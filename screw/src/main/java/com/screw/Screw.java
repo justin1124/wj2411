@@ -32,14 +32,14 @@ public abstract class Screw{
     public static <T> T fromXML(String xml, Class<T> clazz, Parser parser) {
         Assert.notNull(xml, "XML不能为空");
         Assert.notNull(clazz, "Clazz不能为空");
-        logger.debug("XML : "+xml);
         long start = System.currentTimeMillis();
 
         InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
         try {
-            T obj = parser.parse(inputStream, clazz);
+            T obj = clazz.newInstance();
+            parser.parse(inputStream, obj);
 
-            logger.info("XML解析完毕,耗时:" + (System.currentTimeMillis() - start)+"ms");
+            logger.info("XML解析完毕,耗时:" + (System.currentTimeMillis() - start));
             return obj;
         } catch (Exception e) {
             logger.error("XML解析异常 : Class = " + clazz.getName(), e);
