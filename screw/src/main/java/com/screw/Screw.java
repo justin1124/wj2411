@@ -32,7 +32,7 @@ public abstract class Screw{
     public static <T> T fromXML(String xml, Class<T> clazz, Parser parser) {
         Assert.notNull(xml, "XML不能为空");
         Assert.notNull(clazz, "Clazz不能为空");
-        long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis(); 
 
         InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
         try {
