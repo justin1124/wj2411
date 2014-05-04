@@ -30,7 +30,6 @@ public class StAXParser extends AbstractParser {
         try {
             init(clazz);
             Object obj = clazz.newInstance();
-
             
             Map<String, Method> setterMethodMap = CachePool.getSetterMethods(clazz);
             

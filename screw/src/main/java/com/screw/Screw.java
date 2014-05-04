@@ -36,8 +36,7 @@ public abstract class Screw{
 
         InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
         try {
-            T obj = clazz.newInstance();
-            parser.parse(inputStream, obj);
+            T obj = parser.parse(inputStream, clazz);
 
             logger.info("XML解析完毕,耗时:" + (System.currentTimeMillis() - start));
             return obj;
